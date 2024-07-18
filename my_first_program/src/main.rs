@@ -1,4 +1,4 @@
-//Assignment 1
+//Assignment 1 Raul Pacheco
 const FREEZING_POINT: f64 = 32.0;
 
 fn fahrenheit_to_celsius(f: f64) -> f64 {
@@ -24,7 +24,7 @@ fn main() {
 }
 
 
-//Assignment 2
+//Assignment 2 Raul Pacheco
 fn main() {
     let numbers = [15, 2, 30, 9, 10, 4, 7, 14, 6, 5];
 
@@ -63,7 +63,7 @@ fn is_even(n: i32) -> bool {
 }
 
 
-//Assignment 3
+//Assignment 3 Raul Pacheco
 
 fn check_guess(guess: i32, secret: i32) -> i32 {
     if guess == secret {
