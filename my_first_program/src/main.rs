@@ -1,104 +1,38 @@
-//Assignment 1 Raul Pacheco
-const FREEZING_POINT: f64 = 32.0;
+//Raul Pacheco
+use std::process::Command;
 
-fn fahrenheit_to_celsius(f: f64) -> f64 {
-    (f - FREEZING_POINT) * (5.0 / 9.0)
-}
+fn executing_os_commands_linux(command_full:&str) {
+    
+    let parts: Vec<&str> = command_full.split_whitespace().collect();
+    let actual_command = parts[0];
+    let arg1 = parts[1];
 
-fn celsius_to_fahrenheit(c: f64) -> f64 {
-    c * (9.0 / 5.0) + FREEZING_POINT
-}
+    let output = Command::new(actual_command)
+        .arg(arg1)
+        .output()
+        .unwrap();
+        //.expect("Failed to execute command");
+        
 
-fn main() {
-    let mut fahrenheit: f64 = 32.0; 
-
-    let celsius = fahrenheit_to_celsius(fahrenheit);
-    println!("{:.2} Fahrenheit is {:.2} Celsius", fahrenheit, celsius);
-
-    println!("Converting next 5 integer temperatures:");
-    for i in 0..5 {
-        let next_fahrenheit = fahrenheit + i as f64 + 1.0;
-        let next_celsius = fahrenheit_to_celsius(next_fahrenheit);
-        println!("{:.2} Fahrenheit -> {:.2} Celsius", next_fahrenheit, next_celsius);
-    }
+    println!("Command output: {}", String::from_utf8_lossy(&output.stdout));
 }
 
 
-//Assignment 2 Raul Pacheco
-fn main() {
-    let numbers = [15, 2, 30, 9, 10, 4, 7, 14, 6, 5];
+use std::io::{self, Read, Write};
 
-    for &number in numbers.iter() {
-        if is_even(number) {
-            println!("{} is even", number);
-        } else {
-            println!("{} is odd", number);
-        }
-
-        if number % 3 == 0 && number % 5 == 0 {
-            println!("FizzBuzz");
-        } else if number % 3 == 0 {
-            println!("Fizz");
-        } else if number % 5 == 0 {
-            println!("Buzz");
-        }
-    }
-    let mut sum = 0;
-    let mut index = 0;
-    while index < numbers.len() {
-        sum += numbers[index];
-        index += 1;
-    }
-    println!("Sum of all numbers: {}", sum);
-    let mut largest = numbers[0];
-    for &number in numbers.iter() {
-        if number > largest {
-            largest = number;
-        }
-    }
-    println!("Largest number: {}", largest);
-}
-fn is_even(n: i32) -> bool {
-    n % 2 == 0
+fn accept_linux_command_from_user()-> String{
+    let mut buffer = String::new();
+    print!("What linux command you want to execute? ");
+    io::stdout().flush().unwrap();
+    io::stdin().read_line(&mut buffer).unwrap();
+    buffer.trim().to_string()
 }
 
 
-//Assignment 3 Raul Pacheco
+fn main(){
 
-fn check_guess(guess: i32, secret: i32) -> i32 {
-    if guess == secret {
-        0
-    } else if guess > secret {
-        1
-    } else {
-        -1
-    }
-}
-fn main() {
-    let secret = 42; 
-    let mut guess = 30; 
-    let mut attempts = 0;
-
-    loop {
-        attempts += 1;
-
-        match check_guess(guess, secret) {
-            0 => {
-                println!("Congratulations! You guessed the correct number: {}", guess);
-                break;
-            }
-            1 => {
-                println!("Your guess of {} is too high.", guess);
-              
-                guess -= 1;
-            }
-            -1 => {
-                println!("Your guess of {} is too low.", guess);
-                
-                guess += 1;
-            }
-            _ => unreachable!(),
-        }
-    }
-    println!("It took you {} attempts to guess the correct number.", attempts);
+     let full_command:String = accept_linux_command_from_user();
+     executing_os_commands_linux("full_command");
+     //executing_os_commands_linux("echo hello");
+    // executing_os_commands_linux("ls -ls");
 }
